@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript" src="../js/js_func.js"></script>
+  <title>Transonic Aerodynamic Design — Rohan Rajpal</title>
+
+  <meta name="author" content="Rohan Rajpal">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="2D/3D transonic wing optimisation: supercritical section redesign and twist-distribution study for a swept wing at Mach 0.8.">
+
+  <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+  <link rel="icon" type="image/png" href="../images/1729778952131.jpeg">
+
+  <style>
+    article p { line-height: 1.6; margin: 0 0 1.1em 0; }
+    article h2 { font-family: 'Lato', Verdana, Helvetica, sans-serif; font-size: 20px; color: #003262; margin: 1.6em 0 0.6em 0; }
+    .backlink { display: inline-block; margin-bottom: 1.2em; }
+    .meta { color: #555; font-size: 15px; margin: 0.2em 0 1.4em 0; }
+    .imgplaceholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border: 1px dashed #ccc;
+      border-radius: 4px;
+      color: #aaa;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    figure { margin: 1.6em 0; text-align: center; }
+    figcaption { font-size: 14px; color: #555; margin-top: 0.5em; }
+    table.results { border-collapse: collapse; width: 100%; font-size: 14px; margin: 1em 0; }
+    table.results th, table.results td { border: 1px solid #ddd; padding: 6px 8px; text-align: left; }
+    table.results th { background: #f5f5f5; }
+  </style>
+</head>
+
+<body>
+
+<table style="width:100%;max-width:800px;border:0;border-spacing:0;border-collapse:separate;margin:auto;">
+  <tbody>
+    <tr>
+      <td style="padding:20px;">
+
+        <a class="backlink" href="../index.html">&larr; Back to projects</a>
+
+        <heading>Transonic Aerodynamic Design</heading>
+
+        <p class="meta">
+          <strong>Rohan Rajpal</strong> &nbsp;&middot;&nbsp; Coursework, MSc Aerospace Dynamics, Cranfield University, Jan–Mar 2025
+        </p>
+
+        <figure>
+          <img src="../images/tad-wing2-planform-and-3d.png" style="width:100%;max-width:800px;border-radius:4px;" alt="Planform of Wing 2 alongside its 3D geometry, showing the root, crank and tip aerofoil sections stacked along the span">
+          <figcaption>Wing 2, the final selected design — planform (left) and 3D geometry (right), showing the root, crank and tip supercritical sections</figcaption>
+        </figure>
+
+        <article>
+          <h2>Problem</h2>
+          <p>
+            The goal was to optimise the transonic performance of a baseline swept wing (TWD24,
+            aspect ratio 7.75, 25° sweep) at a Mach 0.8 cruise point — reducing shock and wave
+            drag while preserving buffet margin, using the Korn technology factor
+            (κ = M<sub>DD</sub> + 0.1·C<sub>L</sub> + t/c) as the headline efficiency metric. My
+            individual contributions were the redesign of the crank-section 2D aerofoil and the
+            twist-distribution study that shaped the final 3D wing's spanwise twist.
+          </p>
+
+          <h2>Approach</h2>
+          <p>
+            The project ran in two stages. In the <strong>2D stage</strong>, the root, crank and
+            tip sections were extracted from the baseline wing via the inverse Lock transformation
+            and assessed with VGK at the equivalent 2D design Mach number (0.725, from
+            M<sub>2D</sub> = cos(Λ)·M<sub>∞</sub>). New supercritical sections were then designed
+            using VGKD in a weak-shock configuration to hit a target upper-surface pressure
+            distribution, with XFOIL used afterwards to fine-tune camber, thickness and leading-edge
+            radius. I led the redesign of the crank section, testing a range of NACA aerofoils to
+            understand how thickness and camber changes shifted the shock location and drag
+            balance, and studied the thickness-to-chord ratio sensitivity across sections.
+          </p>
+          <p>
+            In the <strong>3D stage</strong>, the redesigned sections were assembled into a wing and
+            evaluated with the Viscous Full-Potential (VFP) method at the design point
+            (M = 0.8, Re = 4×10⁶, α = 2°) plus two off-design cases: a gust encounter and a
+            high-speed manoeuvre. Rather than a formal optimiser, a systematic trial-and-error
+            sweep of crank position, twist, taper and dihedral was used to find an effective
+            combination. I ran the <strong>twist study</strong>: varying the twist angle applied to
+            each of the three sections and tracking the resulting lift-to-drag ratio.
+          </p>
+
+          <table class="results">
+            <thead>
+              <tr><th>Root twist</th><th>Crank twist</th><th>Tip twist</th><th>C<sub>L</sub></th><th>L/D</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1.0°</td><td>0.0°</td><td>-3.5°</td><td>0.448</td><td>24.61</td></tr>
+              <tr><td>1.5°</td><td>0.0°</td><td>-3.5°</td><td>0.467</td><td>23.96</td></tr>
+              <tr><td>1.0°</td><td>0.5°</td><td>-3.5°</td><td>0.474</td><td>24.16</td></tr>
+              <tr><td>0.0°</td><td>0.5°</td><td>-3.5°</td><td>0.436</td><td>24.78</td></tr>
+              <tr><td>0.0°</td><td>0.5°</td><td>-3.6°</td><td>0.435</td><td>24.81</td></tr>
+              <tr><td>0.0°</td><td>0.5°</td><td>-3.8°</td><td>0.432</td><td>24.96</td></tr>
+            </tbody>
+          </table>
+
+          <p>
+            The trend was consistent: the root section benefited from a small positive twist
+            (the exact amount depending on the camber already designed into that section), the
+            crank section was best left close to untwisted to keep the flow smooth across the
+            crank junction, and the tip section needed a negative twist of a few degrees to cut
+            lift-induced and wave drag — directly improving the overall lift-to-drag ratio. These
+            trends fed into the twist distribution used in both final wing candidates.
+          </p>
+
+          <h2>Result</h2>
+          <p>
+            The redesigned 2D sections improved lift-to-drag ratio by 15–30 counts over the
+            baseline (root L/D<sub>NF</sub> rose from 24.95 to 55.28), mainly from reduced wave
+            drag at the root and increased lift at the crank and tip. At the 3D level, two wing
+            candidates were built from these sections and compared against the baseline:
+          </p>
+
+          <table class="results">
+            <thead>
+              <tr><th></th><th>C<sub>L</sub></th><th>L/D (design point)</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Baseline wing</td><td>0.421</td><td>24.35</td><td>—</td></tr>
+              <tr><td>Wing 1</td><td>0.409</td><td>25.05</td><td>Best cruise efficiency; weaker shock, reduced wave &amp; induced drag</td></tr>
+              <tr><td>Wing 2</td><td>0.393</td><td>22.55</td><td>Outboard crank + root treatment; wider buffet margin, more fuel volume</td></tr>
+            </tbody>
+          </table>
+
+          <p>
+            Wing 1 gave the best cruise lift-to-drag ratio, but Wing 2 — with the crank moved
+            further outboard and a thicker root — showed a substantially wider buffet margin
+            across both off-design cases (gust encounter and high-speed manoeuvre) at the cost of
+            some cruise efficiency. Since safety margin was treated as the priority for a transonic
+            wing, <strong>Wing 2 was selected as the final design</strong>, with the trade-off
+            noted that its lower L/D would need to be offset by additional high-lift augmentation.
+          </p>
+
+          <figure>
+            <img src="../images/tad-mach-contour.png" style="width:100%;max-width:650px;border-radius:4px;" alt="Upper-surface local Mach number contour comparing Wing 1 (left half) and Wing 2 (right half)">
+            <figcaption>Upper-surface local Mach number contour — Wing 1 (left) vs. Wing 2 (right). Wing 2's shock system sits further aft and is visibly weaker.</figcaption>
+          </figure>
+
+          <figure>
+            <img src="../images/tad-buffet-margin.png" style="width:100%;max-width:500px;border-radius:4px;" alt="Buffet margin estimation for Wing 2 compared with the baseline wing across the Mach range">
+            <figcaption>Buffet margin, Wing 2 vs. baseline — the final wing sustains higher angle of attack before buffet onset across most of the Mach range</figcaption>
+          </figure>
+
+          <h2>Limitations</h2>
+          <p>
+            The 3D design process was trial-and-error rather than a formal optimisation, so there
+            is no guarantee the selected geometry is a true optimum within the design space. VGK,
+            VGKD and VFP are viscous panel/full-potential methods rather than full RANS CFD, so
+            shock-induced separation and strong viscous-inviscid interaction are only approximated.
+            Wing 2's reduced cruise L/D relative to Wing 1 also pushes a system-level cost — extra
+            high-lift augmentation — outside the scope of what this study designed.
+          </p>
+        </article>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

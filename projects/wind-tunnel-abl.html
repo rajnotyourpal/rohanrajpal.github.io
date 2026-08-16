@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript" src="../js/js_func.js"></script>
+  <title>Experimental Aerodynamics — Wind Tunnel Testing &amp; Boundary Layer Analysis — Rohan Rajpal</title>
+
+  <meta name="author" content="Rohan Rajpal">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Wind tunnel assessment of atmospheric boundary layer flows: friction velocity and surface roughness estimation across three fetch configurations.">
+
+  <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+  <link rel="icon" type="image/png" href="../images/1729778952131.jpeg">
+
+  <style>
+    article p { line-height: 1.6; margin: 0 0 1.1em 0; }
+    article h2 { font-family: 'Lato', Verdana, Helvetica, sans-serif; font-size: 20px; color: #003262; margin: 1.6em 0 0.6em 0; }
+    .backlink { display: inline-block; margin-bottom: 1.2em; }
+    .meta { color: #555; font-size: 15px; margin: 0.2em 0 1.4em 0; }
+    .imgplaceholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border: 1px dashed #ccc;
+      border-radius: 4px;
+      color: #aaa;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    figure { margin: 1.6em 0; text-align: center; }
+    figcaption { font-size: 14px; color: #555; margin-top: 0.5em; }
+    table.results { border-collapse: collapse; width: 100%; font-size: 14px; margin: 1em 0; }
+    table.results th, table.results td { border: 1px solid #ddd; padding: 6px 8px; text-align: left; }
+    table.results th { background: #f5f5f5; }
+  </style>
+</head>
+
+<body>
+
+<table style="width:100%;max-width:800px;border:0;border-spacing:0;border-collapse:separate;margin:auto;">
+  <tbody>
+    <tr>
+      <td style="padding:20px;">
+
+        <a class="backlink" href="../index.html">&larr; Back to projects</a>
+
+        <heading>Experimental Aerodynamics – Wind Tunnel Testing &amp; Boundary Layer Analysis</heading>
+
+        <p class="meta">
+          <strong>Rohan Rajpal</strong> &nbsp;&middot;&nbsp; Group Coursework, MSc Aerospace Dynamics, Cranfield University, Mar–Apr 2025
+        </p>
+
+        <figure>
+          <img src="../images/wt-abl-setup.jpg" style="width:100%;border-radius:4px;" alt="Inside the Cranfield 8x4 Atmospheric Boundary Layer wind tunnel, looking down the fetch toward the honeycomb screen">
+          <figcaption>Inside the 8' × 4' ABL wind tunnel, looking down the 15 m fetch toward the honeycomb screen</figcaption>
+        </figure>
+
+        <article>
+          <h2>Problem</h2>
+          <p>
+            This was a group coursework covering five wind tunnel labs: dynamic pressure and wind
+            tunnel calibration, pressure distribution around a 2D aerofoil, low-speed flow over a
+            delta wing, atmospheric boundary layer (ABL) flows, and velocity profiles in a
+            cylindrical pipe. Instrumentation setup and data acquisition for all five were done
+            jointly as a team of four; each member individually led the analysis and write-up for
+            one lab. My individual contribution was <strong>Task 4: Assessment of Atmospheric
+            Boundary Layer Flows</strong> — estimating friction velocity and surface roughness for
+            simulated boundary layers, and mapping them to real-world terrain types.
+          </p>
+
+          <h2>Approach</h2>
+          <p>
+            Tests ran in Cranfield's 8' × 4' Atmospheric Boundary Layer Wind Tunnel, an open-return
+            tunnel with a 2.4 m × 1.2 m closed test section and a 15 m upstream fetch for calibrated
+            turbulence generation. Three fetch configurations were tested: a clean floor, a clean
+            floor with a coarse turbulence-generating grid, and the grid plus a 150 mm wall barrier
+            just downstream to add a near-ground velocity deficit. For each configuration, a pitot
+            rake measured time-averaged differential pressure across the boundary layer at three
+            tunnel speeds (3, 9, and 13 m/s) — nine velocity profiles in total. Flow velocity at each
+            height was recovered from the measured dynamic pressure, with air density corrected from
+            ambient pressure and temperature.
+          </p>
+          <p>
+            As a sanity check, the shape factor H was computed for every profile before further
+            analysis — it averaged around 1.15, consistent with a sufficiently turbulent boundary
+            layer. To extract friction velocity (U*) and surface roughness length (Z₀), each profile
+            was scaled 1:200 to full-scale height, near-wall points and points outside the boundary
+            layer were excluded as outliers, and a linear regression was fit to ln(Z) vs. U_Z using
+            the log-law relation:
+          </p>
+          <p style="text-align:center; font-style: italic;">
+            U_Z / U* = (1/κ) · ln(Z / Z₀)
+          </p>
+          <p>
+            giving U* = κ/m and Z₀ = exp(c), where m and c are the slope and intercept of the fitted
+            line. The resulting friction velocity and roughness length for each of the nine
+            configurations were then compared against ESDU 82026 reference terrain data to identify
+            the closest-matching real-world terrain type.
+          </p>
+
+          <figure>
+            <img src="../images/wt-abl-loglaw-fit.png" style="width:100%;max-width:500px;border-radius:4px;" alt="Log-law linear fit of ln(Z) vs U_Z for the clean configuration at 9 m/s, with the outlier point near the wall excluded">
+            <figcaption>Log-law linear fit used to extract U* and Z₀ — clean configuration, 9 m/s (the near-wall point is excluded as an outlier)</figcaption>
+          </figure>
+
+          <figure>
+            <img src="../images/wt-abl-velocity-profiles-9ms.png" style="width:100%;max-width:500px;border-radius:4px;" alt="Mean boundary layer velocity profiles for the three fetch configurations at 9 m/s">
+            <figcaption>Mean boundary layer velocity profiles for the three fetch configurations at 9 m/s</figcaption>
+          </figure>
+
+          <h2>Result</h2>
+          <p>
+            The log-law fits produced friction velocity and roughness length for all nine
+            configuration/speed combinations, each mapped to an ESDU terrain classification:
+          </p>
+
+          <table class="results">
+            <thead>
+              <tr><th>Configuration</th><th>Velocity (m/s)</th><th>U* (m/s)</th><th>Z₀ (m)</th><th>Terrain Type</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Clean</td><td>3.01</td><td>0.18</td><td>4.93E-03</td><td>Open country with isolated trees/hedges, pack ice, uncut grass</td></tr>
+              <tr><td>Clean</td><td>8.93</td><td>0.41</td><td>7.88E-04</td><td>Arctic sea ice</td></tr>
+              <tr><td>Clean</td><td>13.0</td><td>0.58</td><td>5.04E-04</td><td>Arctic sea ice</td></tr>
+              <tr><td>Clean + Grid</td><td>2.96</td><td>0.14</td><td>1.11E-03</td><td>Arctic sea ice</td></tr>
+              <tr><td>Clean + Grid</td><td>9.10</td><td>0.33</td><td>1.17E-03</td><td>Sea ice, wind normal to snow ridges</td></tr>
+              <tr><td>Clean + Grid</td><td>12.9</td><td>0.51</td><td>3.60E-04</td><td>Sea ice, wind normal to snow ridges</td></tr>
+              <tr><td>Clean + Grid + Barrier</td><td>3.14</td><td>0.084</td><td>1.38E-03</td><td>Flat desert</td></tr>
+              <tr><td>Clean + Grid + Barrier</td><td>8.7</td><td>0.19</td><td>1.49E-04</td><td>Flat ice, mud flats</td></tr>
+              <tr><td>Clean + Grid + Barrier</td><td>13.5</td><td>0.30</td><td>1.77E-04</td><td>Flat ice, mud flats</td></tr>
+            </tbody>
+          </table>
+
+          <figure>
+            <img src="../images/wt-abl-terrain-types.png" style="width:100%;max-width:420px;border-radius:4px;" alt="ESDU 82026 chart mapping surface roughness length Z0 to real-world terrain descriptions">
+            <figcaption>ESDU 82026 terrain classification chart used to map each Z₀ value to a real-world terrain type</figcaption>
+          </figure>
+
+          <p>
+            The clearest trend: surface roughness parameter Z₀ consistently fell as tunnel speed
+            increased, for every fetch configuration. Physically, inertial forces increasingly
+            dominate over viscous forces at higher flow speed, which reduces the relative influence
+            of surface roughness on the flow — so the same physical fetch setup reads as
+            "smoother" terrain at higher speed. Since roughness-block runs weren't part of this
+            configuration set, the direct effect of discrete roughness elements couldn't be assessed
+            from this data.
+          </p>
+
+          <h2>Limitations</h2>
+          <p>
+            Bernoulli's equation was used to convert dynamic pressure to local velocity, which
+            strictly doesn't hold inside a boundary layer where viscous forces are significant —
+            an accepted simplification given the instrumentation available. Instrument uncertainty
+            was ±0.3 hPa on the digital barometer and ±0.2°C on the digital thermometer. The
+            measurement setup was also assumed to have no influence on the surrounding flow field,
+            and acquisition time was assumed long enough to statistically average out turbulent
+            fluctuations.
+          </p>
+        </article>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
