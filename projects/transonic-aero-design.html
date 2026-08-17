@@ -61,10 +61,10 @@
           <h2>Problem</h2>
           <p>
             The goal was to optimise the transonic performance of a baseline swept wing (TWD24,
-            aspect ratio 7.75, 25° sweep) at a Mach 0.8 cruise point — reducing shock and wave
-            drag while preserving buffet margin, using the Korn technology factor
+            aspect ratio 7.75, 25° sweep) at a Mach 0.8 cruise point. That meant reducing shock and
+            wave drag while preserving buffet margin, tracked against the Korn technology factor
             (κ = M<sub>DD</sub> + 0.1·C<sub>L</sub> + t/c) as the headline efficiency metric. My
-            individual contributions were the redesign of the crank-section 2D aerofoil and the
+            individual contributions were the crank-section 2D aerofoil redesign and the
             twist-distribution study that shaped the final 3D wing's spanwise twist.
           </p>
 
@@ -76,9 +76,9 @@
             M<sub>2D</sub> = cos(Λ)·M<sub>∞</sub>). New supercritical sections were then designed
             using VGKD in a weak-shock configuration to hit a target upper-surface pressure
             distribution, with XFOIL used afterwards to fine-tune camber, thickness and leading-edge
-            radius. I led the redesign of the crank section, testing a range of NACA aerofoils to
-            understand how thickness and camber changes shifted the shock location and drag
-            balance, and studied the thickness-to-chord ratio sensitivity across sections.
+            radius. I led the crank-section redesign: testing a range of NACA aerofoils to see how
+            thickness and camber changes shifted the shock location and drag balance, then checking
+            thickness-to-chord ratio sensitivity across sections.
           </p>
           <p>
             In the <strong>3D stage</strong>, the redesigned sections were assembled into a wing and
@@ -105,12 +105,12 @@
           </table>
 
           <p>
-            The trend was consistent: the root section benefited from a small positive twist
-            (the exact amount depending on the camber already designed into that section), the
-            crank section was best left close to untwisted to keep the flow smooth across the
-            crank junction, and the tip section needed a negative twist of a few degrees to cut
-            lift-induced and wave drag — directly improving the overall lift-to-drag ratio. These
-            trends fed into the twist distribution used in both final wing candidates.
+            The trend was consistent across trials. The root section benefited from a small
+            positive twist, with the exact amount depending on the camber already built into that
+            section. The crank section worked best left close to untwisted, keeping the flow smooth
+            across the crank junction. The tip needed a negative twist of a few degrees to cut
+            lift-induced and wave drag, which is what actually moved the lift-to-drag ratio. Both
+            final wing candidates used this same twist distribution.
           </p>
 
           <h2>Result</h2>
@@ -133,12 +133,12 @@
           </table>
 
           <p>
-            Wing 1 gave the best cruise lift-to-drag ratio, but Wing 2 — with the crank moved
-            further outboard and a thicker root — showed a substantially wider buffet margin
-            across both off-design cases (gust encounter and high-speed manoeuvre) at the cost of
-            some cruise efficiency. Since safety margin was treated as the priority for a transonic
-            wing, <strong>Wing 2 was selected as the final design</strong>, with the trade-off
-            noted that its lower L/D would need to be offset by additional high-lift augmentation.
+            Wing 1 had the better cruise lift-to-drag ratio. Wing 2 moved the crank further outboard
+            and thickened the root, which cost some cruise efficiency but bought a substantially
+            wider buffet margin across both off-design cases. Safety margin was the priority for a
+            transonic wing, so <strong>Wing 2 was selected as the final design</strong>. Its lower
+            L/D is a real trade-off, one that would need offsetting with additional high-lift
+            augmentation.
           </p>
 
           <figure>
@@ -157,8 +157,8 @@
             is no guarantee the selected geometry is a true optimum within the design space. VGK,
             VGKD and VFP are viscous panel/full-potential methods rather than full RANS CFD, so
             shock-induced separation and strong viscous-inviscid interaction are only approximated.
-            Wing 2's reduced cruise L/D relative to Wing 1 also pushes a system-level cost — extra
-            high-lift augmentation — outside the scope of what this study designed.
+            Wing 2's reduced cruise L/D relative to Wing 1 also pushes a system-level cost, extra
+            high-lift augmentation, outside the scope of what this study actually designed.
           </p>
         </article>
 

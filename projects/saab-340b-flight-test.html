@@ -52,11 +52,11 @@
             EASA CS-25 (Certification Specifications for Large Aeroplanes) across lift &amp; drag,
             cruise performance, longitudinal and lateral/directional stability, climb &amp; take-off
             performance, and dynamic stability. Six of us split the analysis by area and each wrote
-            an individually-authored section of the shared report. My section was
-            <strong>Dynamic Stability Characteristics</strong> — quantifying the aircraft's four
+            an individually-authored section of the shared report. Mine was
+            <strong>Dynamic Stability Characteristics</strong>: quantifying the aircraft's four
             classical dynamic modes (short-period pitch oscillation, phugoid, roll mode and Dutch
-            roll) directly from in-flight data, and checking two of them against CS-25's explicit
-            damping requirements (CS 25.181(a) and (b)).
+            roll) directly from in-flight data, then checking two of them against CS-25's explicit
+            damping requirements, CS 25.181(a) and (b).
           </p>
 
           <h2>Approach</h2>
@@ -64,7 +64,7 @@
             Each mode needed a different excitation technique in the air. For the short-period
             pitch oscillation (SPPO), the aircraft was trimmed and given a sharp impulse on the
             yoke, then the opposite impulse once the response had died away. The phugoid was excited
-            more gently — releasing the yoke to trim from an offset elevator angle and letting the
+            more gently: releasing the yoke to trim from an offset elevator angle and letting the
             long-period pitch/airspeed exchange develop on its own. Dutch roll was excited with a
             series of rudder doublets, recorded both with the yaw damper engaged and disengaged. The
             roll mode was excited by banking to 30&deg;, applying a small aileron step, and centring
@@ -72,16 +72,16 @@
           </p>
           <p>
             Extracting natural frequency and damping ratio from each recorded response needed a
-            different graphical technique depending on how the mode actually behaved in the data.
-            The heavily-damped SPPO had too much sensor noise for a reliable maximum-slope fit, so I
+            different graphical technique depending on how the mode behaved in the data. The
+            heavily-damped SPPO had too much sensor noise for a reliable maximum-slope fit, so I
             used the <strong>Time Ratio Method</strong> instead. The lightly-damped phugoid and
-            Dutch roll, each with more than three visible overshoots, were suited to the
-            <strong>Logarithmic Decrement Method</strong>. The first-order roll mode used a simple
-            <strong>time-constant extrapolation</strong> — the time for roll rate to reach 63.2% of
-            its steady-state value, averaged over four step inputs per flight. Each flight-test-derived
-            value was then checked against a reduced-order analytical model built from the aircraft's
-            aero-derivatives, and benchmarked against archival Jetstream J31 data as a class-comparison
-            baseline.
+            Dutch roll, each with more than three visible overshoots, suited the
+            <strong>Logarithmic Decrement Method</strong> better. The first-order roll mode just
+            needed a <strong>time-constant extrapolation</strong>: the time for roll rate to reach
+            63.2% of its steady-state value, averaged over four step inputs per flight. Every
+            flight-test-derived value was then checked against a reduced-order analytical model
+            built from the aircraft's aero-derivatives, and benchmarked against archival Jetstream
+            J31 data as a class comparison.
           </p>
 
           <h2>Result</h2>
@@ -99,10 +99,10 @@
           </figure>
 
           <p>
-            The phugoid behaved exactly as theory predicts: natural frequency fell as true airspeed
-            increased, damping stayed low (&zeta;<sub>p</sub> &asymp; 0.04&ndash;0.07), and the effect
-            of the elevator down-spring was visible directly in the recorded response &mdash; the
-            pilot has to make a small correction on releasing the yoke as the trim position shifts:
+            The phugoid behaved exactly as theory predicts. Natural frequency fell as true airspeed
+            increased, damping stayed low (&zeta;<sub>p</sub> &asymp; 0.04&ndash;0.07), and you can
+            see the elevator down-spring effect right there in the recorded response: the pilot has
+            to make a small correction on releasing the yoke as the trim position shifts.
           </p>
 
           <figure>
@@ -111,11 +111,12 @@
           </figure>
 
           <p>
-            Dutch roll gave the cleanest result of the four modes. Sideslip, yaw rate and roll rate
-            all showed a textbook lightly-damped lateral/directional oscillation, and the
-            log-decrement fits produced a specific damping coefficient (&omega;<sub>D</sub>&zeta;<sub>D</sub>)
-            that was positive across every speed tested &mdash; meeting the CS 25.181(b) requirement
-            that Dutch roll be positively damped with controls free:
+            Dutch roll was the cleanest of the four modes to extract. Sideslip, yaw rate and roll
+            rate all showed the classic lightly-damped lateral/directional oscillation, and the
+            log-decrement fits produced a specific damping coefficient
+            (&omega;<sub>D</sub>&zeta;<sub>D</sub>) that stayed positive across every speed tested.
+            That meets the CS 25.181(b) requirement that Dutch roll be positively damped with
+            controls free:
           </p>
 
           <div class="figrow">
@@ -137,18 +138,17 @@
 
           <h2>Limitations</h2>
           <p>
-            The roll mode and Dutch roll data both showed a low-fidelity character &mdash; noise and
-            unsteadiness that persisted even after the control input had stopped, which I attribute
-            (along with the report as a whole) to a mix of pilot error, instrument error, and the
-            absence of any signal filtering or processing before analysis. The SPPO's frequency trend
-            against centre of gravity was directionally correct but, in the report's own words, "not
-            very discernible due to the high level of scatter and low correlation of data." CS
-            25.181(a) compliance was only demonstrated within the range of speeds actually flown, not
-            near the aircraft's operating speed limits, and not with the primary controls held in a
-            fixed position &mdash; both would need further test flights to close out fully. More
-            generally, each mode's frequency and damping came from a single flight-test excitation
-            per condition, with no repeat runs to separate genuine test-to-test scatter from
-            measurement noise.
+            Both the roll mode and Dutch roll data had a low-fidelity character: noise and
+            unsteadiness that persisted even after the control input had stopped. The report
+            attributes this to pilot error, instrument error and a lack of signal filtering before
+            analysis, and I'd agree. The SPPO's frequency trend against centre of gravity was
+            directionally correct but, in the report's own words, "not very discernible due to the
+            high level of scatter and low correlation of data." CS 25.181(a) compliance was only
+            demonstrated within the range of speeds actually flown, not near the aircraft's
+            operating speed limits, and not with the primary controls held in a fixed position.
+            Both would need further test flights to close out properly. More generally, each mode's
+            frequency and damping came from a single flight-test excitation per condition. There was
+            no repeat run to separate genuine test-to-test scatter from plain measurement noise.
           </p>
         </article>
 

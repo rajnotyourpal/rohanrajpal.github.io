@@ -63,32 +63,32 @@
             This was a group coursework covering five wind tunnel labs: dynamic pressure and wind
             tunnel calibration, pressure distribution around a 2D aerofoil, low-speed flow over a
             delta wing, atmospheric boundary layer (ABL) flows, and velocity profiles in a
-            cylindrical pipe. Instrumentation setup and data acquisition for all five were done
-            jointly as a team of four; each member individually led the analysis and write-up for
-            one lab. My individual contribution was <strong>Task 4: Assessment of Atmospheric
-            Boundary Layer Flows</strong> — estimating friction velocity and surface roughness for
-            simulated boundary layers, and mapping them to real-world terrain types.
+            cylindrical pipe. We ran instrumentation and data acquisition together as a team of four,
+            then split up: each person led the analysis and write-up for one lab. Mine was
+            <strong>Task 4, Assessment of Atmospheric Boundary Layer Flows</strong>. I estimated
+            friction velocity and surface roughness for the simulated boundary layers and matched
+            them against real-world terrain types.
           </p>
 
           <h2>Approach</h2>
           <p>
             Tests ran in Cranfield's 8' × 4' Atmospheric Boundary Layer Wind Tunnel, an open-return
             tunnel with a 2.4 m × 1.2 m closed test section and a 15 m upstream fetch for calibrated
-            turbulence generation. Three fetch configurations were tested: a clean floor, a clean
-            floor with a coarse turbulence-generating grid, and the grid plus a 150 mm wall barrier
-            just downstream to add a near-ground velocity deficit. For each configuration, a pitot
-            rake measured time-averaged differential pressure across the boundary layer at three
-            tunnel speeds (3, 9, and 13 m/s) — nine velocity profiles in total. Flow velocity at each
-            height was recovered from the measured dynamic pressure, with air density corrected from
-            ambient pressure and temperature.
+            turbulence generation. Three fetch configurations were tested: a clean floor, the same
+            floor with a coarse turbulence-generating grid added, and the grid plus a 150 mm wall
+            barrier just downstream to add a near-ground velocity deficit. A pitot rake measured
+            time-averaged differential pressure across the boundary layer for each configuration at
+            three tunnel speeds: 3, 9 and 13 m/s. That gave nine velocity profiles in total. Flow
+            velocity at each height came from the measured dynamic pressure, with air density
+            corrected from ambient pressure and temperature.
           </p>
           <p>
-            As a sanity check, the shape factor H was computed for every profile before further
-            analysis — it averaged around 1.15, consistent with a sufficiently turbulent boundary
-            layer. To extract friction velocity (U*) and surface roughness length (Z₀), each profile
-            was scaled 1:200 to full-scale height, near-wall points and points outside the boundary
-            layer were excluded as outliers, and a linear regression was fit to ln(Z) vs. U_Z using
-            the log-law relation:
+            Before anything else, I computed the shape factor H for every profile as a sanity check.
+            It averaged around 1.15, consistent with a properly turbulent boundary layer. To extract
+            friction velocity (U*) and surface roughness length (Z₀), each profile was scaled 1:200
+            to full-scale height. Near-wall points and points outside the boundary layer were
+            excluded as outliers. A linear regression was then fit to ln(Z) vs. U_Z using the log-law
+            relation:
           </p>
           <p style="text-align:center; font-style: italic;">
             U_Z / U* = (1/κ) · ln(Z / Z₀)
@@ -139,24 +139,23 @@
           </figure>
 
           <p>
-            The clearest trend: surface roughness parameter Z₀ consistently fell as tunnel speed
-            increased, for every fetch configuration. Physically, inertial forces increasingly
-            dominate over viscous forces at higher flow speed, which reduces the relative influence
-            of surface roughness on the flow — so the same physical fetch setup reads as
-            "smoother" terrain at higher speed. Since roughness-block runs weren't part of this
-            configuration set, the direct effect of discrete roughness elements couldn't be assessed
-            from this data.
+            The clearest trend: surface roughness Z₀ fell consistently as tunnel speed increased,
+            for every fetch configuration tested. Physically, inertial forces increasingly dominate
+            over viscous forces at higher flow speed, and that reduces how much surface roughness
+            actually influences the flow. The same physical fetch setup reads as "smoother" terrain
+            the faster you run it. Roughness-block runs weren't part of this configuration set, so
+            the effect of discrete roughness elements on their own couldn't be assessed from this
+            data.
           </p>
 
           <h2>Limitations</h2>
           <p>
-            Bernoulli's equation was used to convert dynamic pressure to local velocity, which
-            strictly doesn't hold inside a boundary layer where viscous forces are significant —
-            an accepted simplification given the instrumentation available. Instrument uncertainty
-            was ±0.3 hPa on the digital barometer and ±0.2°C on the digital thermometer. The
-            measurement setup was also assumed to have no influence on the surrounding flow field,
-            and acquisition time was assumed long enough to statistically average out turbulent
-            fluctuations.
+            Bernoulli's equation was used to convert dynamic pressure to local velocity. Strictly,
+            that doesn't hold inside a boundary layer where viscous forces matter, but it's an
+            accepted simplification given the instrumentation available. Instrument uncertainty was
+            ±0.3 hPa on the digital barometer and ±0.2°C on the digital thermometer. I also assumed
+            the measurement setup had no influence on the surrounding flow field, and that the
+            acquisition time was long enough to average out turbulent fluctuations statistically.
           </p>
         </article>
 
