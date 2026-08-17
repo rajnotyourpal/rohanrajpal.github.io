@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript" src="../js/js_func.js"></script>
+  <title>Aircraft Flight Test Performance and Stability Analysis — Rohan Rajpal</title>
+
+  <meta name="author" content="Rohan Rajpal">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Dynamic stability characteristics of Cranfield's Saab 340B, extracted from real flight test data and checked against CS-25 certification requirements.">
+
+  <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+  <link rel="icon" type="image/png" href="../images/1729778952131.jpeg">
+
+  <style>
+    article p { line-height: 1.6; margin: 0 0 1.1em 0; }
+    article h2 { font-family: 'Lato', Verdana, Helvetica, sans-serif; font-size: 20px; color: #003262; margin: 1.6em 0 0.6em 0; }
+    .backlink { display: inline-block; margin-bottom: 1.2em; }
+    .meta { color: #555; font-size: 15px; margin: 0.2em 0 1.4em 0; }
+    figure { margin: 1.6em 0; text-align: center; }
+    figcaption { font-size: 14px; color: #555; margin-top: 0.5em; }
+    .figrow { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+    .figrow figure { flex: 1 1 260px; max-width: 340px; margin: 1.2em 0; }
+  </style>
+</head>
+
+<body>
+
+<table style="width:100%;max-width:800px;border:0;border-spacing:0;border-collapse:separate;margin:auto;">
+  <tbody>
+    <tr>
+      <td style="padding:20px;">
+
+        <a class="backlink" href="../index.html">&larr; Back to projects</a>
+
+        <heading>Aircraft Flight Test Performance and Stability Analysis of the Saab 340B</heading>
+
+        <p class="meta">
+          <strong>Rohan Rajpal</strong> &nbsp;&middot;&nbsp; Group Coursework, MSc Aerospace Dynamics, Cranfield University, Oct&ndash;Dec 2024
+        </p>
+
+        <figure>
+          <img src="../images/saab340-hero.jpg" style="width:100%;border-radius:4px;" alt="Cranfield University's research Saab 340B, registration G-NFLB, on approach">
+          <figcaption>Cranfield's National Flying Laboratory Centre Saab 340B, G-NFLB — the aircraft flown and characterised in this report</figcaption>
+        </figure>
+
+        <article>
+          <h2>Problem</h2>
+          <p>
+            Seven real flight tests were flown on Cranfield's research Saab 340B, G-NFLB, in
+            October 2024, to characterise the aircraft against the certification requirements of
+            EASA CS-25 (Certification Specifications for Large Aeroplanes) across lift &amp; drag,
+            cruise performance, longitudinal and lateral/directional stability, climb &amp; take-off
+            performance, and dynamic stability. Six of us split the analysis by area and each wrote
+            an individually-authored section of the shared report. My section was
+            <strong>Dynamic Stability Characteristics</strong> — quantifying the aircraft's four
+            classical dynamic modes (short-period pitch oscillation, phugoid, roll mode and Dutch
+            roll) directly from in-flight data, and checking two of them against CS-25's explicit
+            damping requirements (CS 25.181(a) and (b)).
+          </p>
+
+          <h2>Approach</h2>
+          <p>
+            Each mode needed a different excitation technique in the air. For the short-period
+            pitch oscillation (SPPO), the aircraft was trimmed and given a sharp impulse on the
+            yoke, then the opposite impulse once the response had died away. The phugoid was excited
+            more gently — releasing the yoke to trim from an offset elevator angle and letting the
+            long-period pitch/airspeed exchange develop on its own. Dutch roll was excited with a
+            series of rudder doublets, recorded both with the yaw damper engaged and disengaged. The
+            roll mode was excited by banking to 30&deg;, applying a small aileron step, and centring
+            the stick again once the aircraft reached 40&deg; of bank.
+          </p>
+          <p>
+            Extracting natural frequency and damping ratio from each recorded response needed a
+            different graphical technique depending on how the mode actually behaved in the data.
+            The heavily-damped SPPO had too much sensor noise for a reliable maximum-slope fit, so I
+            used the <strong>Time Ratio Method</strong> instead. The lightly-damped phugoid and
+            Dutch roll, each with more than three visible overshoots, were suited to the
+            <strong>Logarithmic Decrement Method</strong>. The first-order roll mode used a simple
+            <strong>time-constant extrapolation</strong> — the time for roll rate to reach 63.2% of
+            its steady-state value, averaged over four step inputs per flight. Each flight-test-derived
+            value was then checked against a reduced-order analytical model built from the aircraft's
+            aero-derivatives, and benchmarked against archival Jetstream J31 data as a class-comparison
+            baseline.
+          </p>
+
+          <h2>Result</h2>
+          <p>
+            The SPPO showed the expected trend as centre of gravity moved aft: natural frequency
+            decreased (falling manoeuvre margin) while damping ratio increased, and the reduced-order
+            model tracked this reasonably well despite scatter in the flight data. More importantly
+            for certification, every tested point exceeded the CS 25.181(a) minimum damping ratio of
+            0.4 across the speed range flown:
+          </p>
+
+          <figure>
+            <img src="../images/saab340-sppo-cs25-compliance.png" style="width:100%;max-width:480px;border-radius:4px;" alt="SPPO damping ratio vs equivalent airspeed, all flight-test points above the CS 25.181(a) minimum damping compliance line">
+            <figcaption>SPPO damping ratio vs. equivalent airspeed &mdash; all points sit above the CS 25.181(a) compliance line (&zeta; &ge; 0.4)</figcaption>
+          </figure>
+
+          <p>
+            The phugoid behaved exactly as theory predicts: natural frequency fell as true airspeed
+            increased, damping stayed low (&zeta;<sub>p</sub> &asymp; 0.04&ndash;0.07), and the effect
+            of the elevator down-spring was visible directly in the recorded response &mdash; the
+            pilot has to make a small correction on releasing the yoke as the trim position shifts:
+          </p>
+
+          <figure>
+            <img src="../images/saab340-phugoid-response.png" style="width:100%;max-width:480px;border-radius:4px;" alt="Phugoid dynamic response showing elevator deflection, angle of attack and pitch angle over time, with a visible transient as the pilot releases the yoke to the down-spring">
+            <figcaption>Phugoid dynamic response &mdash; elevator deflection, angle of attack and pitch over ~130&nbsp;seconds, showing the down-spring effect on release-to-trim</figcaption>
+          </figure>
+
+          <p>
+            Dutch roll gave the cleanest result of the four modes. Sideslip, yaw rate and roll rate
+            all showed a textbook lightly-damped lateral/directional oscillation, and the
+            log-decrement fits produced a specific damping coefficient (&omega;<sub>D</sub>&zeta;<sub>D</sub>)
+            that was positive across every speed tested &mdash; meeting the CS 25.181(b) requirement
+            that Dutch roll be positively damped with controls free:
+          </p>
+
+          <div class="figrow">
+            <figure>
+              <img src="../images/saab340-dutchroll-response.png" style="width:100%;border-radius:4px;" alt="Dutch roll dynamic response showing rudder deflection, sideslip, yaw rate and roll rate over time, decaying smoothly after the rudder doublets stop">
+              <figcaption>Dutch roll response to rudder doublets &mdash; sideslip, yaw and roll rate all decay smoothly once input stops</figcaption>
+            </figure>
+            <figure>
+              <img src="../images/saab340-dutchroll-cs25-compliance.png" style="width:100%;border-radius:4px;" alt="Dutch roll specific damping coefficient vs equivalent airspeed, all points positive and above the CS 25.181(b) zero-damping compliance line">
+              <figcaption>Dutch roll specific damping vs. airspeed &mdash; every point positive, meeting the CS 25.181(b) compliance line</figcaption>
+            </figure>
+          </div>
+
+          <p>
+            The roll mode was the weakest result of the four. An acceptable time constant was
+            obtained across the tested speed range, but with noticeably more scatter against both the
+            reduced-order model and the Jetstream J31 baseline than any other mode.
+          </p>
+
+          <h2>Limitations</h2>
+          <p>
+            The roll mode and Dutch roll data both showed a low-fidelity character &mdash; noise and
+            unsteadiness that persisted even after the control input had stopped, which I attribute
+            (along with the report as a whole) to a mix of pilot error, instrument error, and the
+            absence of any signal filtering or processing before analysis. The SPPO's frequency trend
+            against centre of gravity was directionally correct but, in the report's own words, "not
+            very discernible due to the high level of scatter and low correlation of data." CS
+            25.181(a) compliance was only demonstrated within the range of speeds actually flown, not
+            near the aircraft's operating speed limits, and not with the primary controls held in a
+            fixed position &mdash; both would need further test flights to close out fully. More
+            generally, each mode's frequency and damping came from a single flight-test excitation
+            per condition, with no repeat runs to separate genuine test-to-test scatter from
+            measurement noise.
+          </p>
+        </article>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

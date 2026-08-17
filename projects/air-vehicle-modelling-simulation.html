@@ -1,0 +1,168 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript" src="../js/js_func.js"></script>
+  <title>Air Vehicle Modelling and Simulation — Rohan Rajpal</title>
+
+  <meta name="author" content="Rohan Rajpal">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="6DOF Simulink model of Cranfield's research Saab 340B, trimmed, linearised and validated against real flight test data across five classical dynamic modes.">
+
+  <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+  <link rel="icon" type="image/png" href="../images/1729778952131.jpeg">
+
+  <style>
+    article p { line-height: 1.6; margin: 0 0 1.1em 0; }
+    article h2 { font-family: 'Lato', Verdana, Helvetica, sans-serif; font-size: 20px; color: #003262; margin: 1.6em 0 0.6em 0; }
+    .backlink { display: inline-block; margin-bottom: 1.2em; }
+    .meta { color: #555; font-size: 15px; margin: 0.2em 0 1.4em 0; }
+    figure { margin: 1.6em 0; text-align: center; }
+    figcaption { font-size: 14px; color: #555; margin-top: 0.5em; }
+    .figrow { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+    .figrow figure { flex: 1 1 260px; max-width: 340px; margin: 1.2em 0; }
+  </style>
+</head>
+
+<body>
+
+<table style="width:100%;max-width:800px;border:0;border-spacing:0;border-collapse:separate;margin:auto;">
+  <tbody>
+    <tr>
+      <td style="padding:20px;">
+
+        <a class="backlink" href="../index.html">&larr; Back to projects</a>
+
+        <heading>Air Vehicle Modelling and Simulation of the Saab 340B</heading>
+
+        <p class="meta">
+          <strong>Rohan Rajpal</strong> &nbsp;&middot;&nbsp; Coursework, MSc Aerospace Dynamics, Cranfield University, Feb 2025
+        </p>
+
+        <figure>
+          <img src="../images/saab340-hero.jpg" style="width:100%;border-radius:4px;" alt="Cranfield University's research Saab 340B, registration G-NFLB, on approach">
+          <figcaption>Cranfield's National Flying Laboratory Centre Saab 340B, G-NFLB — the aircraft modelled and validated in this assignment</figcaption>
+        </figure>
+
+        <article>
+          <h2>Problem</h2>
+          <p>
+            The goal was to build a full six-degree-of-freedom (6DOF) Simulink model of Cranfield's
+            research Saab 340B, G-NFLB, a twin-turboprop aircraft the university flies for hands-on
+            flight test teaching, and then prove — with real flight test data, not just simulation
+            self-consistency — that the model actually behaves like the aircraft. The assignment
+            supplied a pre-built aerodynamic and propulsive "Forces &amp; Moments" subsystem, adapted
+            from Cranfield's earlier Jetstream 31 model using the Wolowicz &amp; Yancey method for
+            propeller-slipstream effects, plus flight test recordings of five classical dynamic
+            modes (phugoid, short-period pitching oscillation, roll subsidence, spiral and Dutch
+            roll). Everything else — the kinematic and navigation equations, trim, linearisation,
+            mode decoupling and frequency-response analysis — was my own individual work, submitted
+            as an individual report per the module's assessment rules.
+          </p>
+
+          <h2>Approach</h2>
+          <p>
+            I assembled the standard 6DOF Euler-angle simulation by wiring the supplied Forces &amp;
+            Moments block into a translational/rotational acceleration stage and a set of kinematic
+            equations, and wrote the navigation equations block myself from scratch to integrate body
+            rates into position and altitude.
+          </p>
+
+          <figure>
+            <img src="../images/saab340-nav-block.png" style="width:100%;max-width:480px;border-radius:4px;" alt="Navigation equations Simulink block built from scratch, taking body velocities and Euler angles and integrating to P_N, P_E and altitude">
+            <figcaption>Navigation equations block — the one subsystem the assignment required building entirely from scratch, integrating body-axis velocities into position and altitude</figcaption>
+          </figure>
+
+          <p>
+            With the nonlinear model running, I trimmed it to a steady, level flight condition,
+            iterating on elevator, throttle and state values in Simulink until the states held flat
+            over a run of several seconds — confirming a converged trim rather than a slowly drifting
+            near-trim. I then linearised the trimmed model about that point with <code>linmod</code>,
+            decoupled the resulting 12-state system into a 4-state longitudinal and a 5-state
+            lateral/directional model, and computed the eigenvalues of each to characterise the
+            aircraft's natural modes. Finally, I converted both decoupled state-space models to
+            transfer functions and generated Bode plots for the pitch, roll and yaw channels to
+            predict handling qualities in the frequency domain, per the MIL-HDBK-1797 approach the
+            assignment pointed to.
+          </p>
+          <p>
+            To validate all of this against reality, I replayed the actual control inputs recorded
+            during Cranfield's Saab 340B flight tests — for the phugoid, short-period, roll
+            subsidence and Dutch roll manoeuvres — through the trimmed nonlinear model, and directly
+            overlaid the simulated response against the flight test time histories for the same
+            state.
+          </p>
+
+          <h2>Result</h2>
+          <p>
+            The longitudinal eigenvalues split cleanly into the two modes classical flight dynamics
+            predicts: a fast, heavily-damped short-period pair and a slow, lightly-damped phugoid
+            pair sitting close to the imaginary axis — consistent with a light twin-turboprop's
+            typical handling.
+          </p>
+
+          <figure>
+            <img src="../images/saab340-eigen-longitudinal.png" style="width:100%;max-width:480px;border-radius:4px;" alt="Longitudinal eigenvalue chart showing a well-separated, heavily damped short-period pair and a lightly-damped phugoid pair near the origin">
+            <figcaption>Longitudinal eigenvalues of the linearised model — a heavily-damped short-period pair well off the imaginary axis, and a lightly-damped phugoid pair close to it</figcaption>
+          </figure>
+
+          <p>
+            Validation against flight test was mode-dependent. Dutch roll matched closely in both
+            frequency and amplitude decay over the full recorded run — the clearest evidence the
+            lateral/directional model is capturing the real aircraft's dynamics well:
+          </p>
+
+          <figure>
+            <img src="../images/saab340-dutchroll-sideslip.png" style="width:100%;max-width:480px;border-radius:4px;" alt="Dutch roll sideslip time history comparing the Simulink model against flight test data, showing close agreement in frequency and damping">
+            <figcaption>Dutch roll sideslip response — model vs. flight test. Frequency and damping trend match closely across the full manoeuvre</figcaption>
+          </figure>
+
+          <p>
+            The phugoid told a more mixed story: the model reproduced the roughly 25&ndash;30&nbsp;s
+            period correctly, but the amplitude and a slowly-growing offset diverged from the flight
+            data as the run went on — the kind of drift expected from a very lightly-damped mode,
+            where small aerodynamic-derivative errors compound over an open-loop comparison with no
+            pilot or controller closing the loop:
+          </p>
+
+          <figure>
+            <img src="../images/saab340-phugoid-tas.png" style="width:100%;max-width:480px;border-radius:4px;" alt="Phugoid true airspeed time history comparing the Simulink model against flight test data, showing matching period but diverging amplitude">
+            <figcaption>Phugoid true-airspeed response — model vs. flight test. Period matches well; amplitude and offset drift apart over the run</figcaption>
+          </figure>
+
+          <p>
+            The frequency-domain analysis backed this up: the pitch-rate-to-elevator Bode plot showed
+            a distinct low-frequency phugoid resonance feeding into a broader short-period peak,
+            consistent with the time-domain eigenvalue split above.
+          </p>
+
+          <figure>
+            <img src="../images/saab340-bode-pitchrate.png" style="width:100%;max-width:480px;border-radius:4px;" alt="Bode plot of pitch rate response to elevator input, showing a phugoid resonance feeding into a broader short-period peak">
+            <figcaption>Pitch-rate-to-elevator frequency response, used to predict longitudinal handling qualities</figcaption>
+          </figure>
+
+          <h2>Limitations</h2>
+          <p>
+            The supplied aerodynamic model is itself an approximation adapted from a different
+            aircraft (the Jetstream 31) via a published propeller-slipstream method rather than
+            measured directly on the Saab 340B, so any error in that base model propagates straight
+            into the mismatches seen above — most visibly the phugoid amplitude drift and a trim
+            angle-of-attack offset in the short-period comparison that likely reflects a small trim
+            mismatch at that specific flight condition rather than a modelling error in the dynamics
+            themselves. The nonlinear-vs-flight-test comparisons also used open-loop control inputs
+            replayed from the flight test log with no pilot or feedback model, so any small timing or
+            trim mismatch compounds visibly over longer runs, as seen in the roll-mode response
+            drifting apart after the first ~10&nbsp;seconds. Trim and validation were only carried out
+            rigorously at the one flight condition the linear model was built around, rather than
+            across the full trim table provided; and the optional integrated UI (worth no marks) was
+            not attempted.
+          </p>
+        </article>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
