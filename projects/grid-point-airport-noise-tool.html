@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript" src="../js/js_func.js"></script>
+  <title>Grid-Point Method Airport Noise Tool — Rohan Rajpal</title>
+
+  <meta name="author" content="Rohan Rajpal">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A MATLAB grid-point method tool for computing aircraft noise contours around an airport from NPD data, including a full landing-takeoff cycle.">
+
+  <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+  <link rel="icon" type="image/png" href="../images/1729778952131.jpeg">
+
+  <style>
+    article p { line-height: 1.6; margin: 0 0 1.1em 0; }
+    article h2 { font-family: 'Lato', Verdana, Helvetica, sans-serif; font-size: 20px; color: #003262; margin: 1.6em 0 0.6em 0; }
+    .backlink { display: inline-block; margin-bottom: 1.2em; }
+    .meta { color: #555; font-size: 15px; margin: 0.2em 0 1.4em 0; }
+    figure { margin: 1.6em 0; text-align: center; }
+    figcaption { font-size: 14px; color: #555; margin-top: 0.5em; }
+  </style>
+</head>
+
+<body>
+
+<table style="width:100%;max-width:800px;border:0;border-spacing:0;border-collapse:separate;margin:auto;">
+  <tbody>
+    <tr>
+      <td style="padding:20px;">
+
+        <a class="backlink" href="../index.html">&larr; Back to projects</a>
+
+        <heading>Grid-Point Method Airport Noise Tool</heading>
+
+        <p class="meta">
+          <strong>Rohan Rajpal</strong> &nbsp;&middot;&nbsp; Coursework, MSc Aerospace Dynamics, Cranfield University, Feb&ndash;Mar 2025
+        </p>
+
+        <figure>
+          <img src="../images/noise-tool-lto-cycle.png" style="width:100%;max-width:600px;border-radius:4px;" alt="Noise contour for a full landing-takeoff cycle of an Airbus A350, showing a diamond-shaped footprint peaking above 80 decibels under the flight path">
+          <figcaption>Full landing-takeoff cycle noise contour for an A350, accumulated over the whole descent-to-climb trajectory</figcaption>
+        </figure>
+
+        <article>
+          <h2>Problem</h2>
+          <p>
+            For the Technology for Sustainable Aviation module, I built a grid-point method tool in
+            MATLAB to compute aircraft noise contours around an airport, using real
+            Noise-Power-Distance (NPD) data rather than a simplified point-source model. The tool
+            needed to handle three cases: a single aircraft flyover, several different aircraft
+            compared side by side, and a full landing-takeoff cycle with a realistic
+            descent-to-climb trajectory. I also implemented the lateral directivity function that
+            turns a plain circular footprint into a realistic, flight-path-aligned contour.
+          </p>
+
+          <h2>Approach</h2>
+          <p>
+            The grid-point method lays a mesh of observation points over the ground and works out
+            the noise each one receives from the aircraft at every position along its flight path.
+            For each grid point and each aircraft position, the tool computes the slant distance,
+            looks up the corresponding noise level by interpolating ANP legacy NPD data against
+            power setting and distance, corrects it for lateral directivity, then accumulates the
+            contribution across the full trajectory.
+          </p>
+          <p>
+            I implemented the directivity correction directly. The azimuthal angle from the
+            aircraft to each grid point, &phi; = atan2(Y &minus; y<sub>a</sub>, X &minus; x<sub>a</sub>),
+            feeds a dipole directivity term D(&phi;) = |cos &phi;|, which gives a final corrected
+            noise level L<sub>final</sub> = L<sub>noise</sub> + 10&middot;log&#8321;&#8320;D(&phi;).
+            That correction is what stretches a single-flyover contour into the lens shape in the
+            results below, rather than leaving it a plain circle.
+          </p>
+          <p>
+            The tool itself is two MATLAB scripts chained together. One discretises a flight path,
+            approach, descent, takeoff, into 10-second motion steps with smoothly interpolated
+            altitude and airspeed. The other runs the grid-point calculation over that path and
+            renders the noise contour as both a static plot and an exported video.
+          </p>
+
+          <h2>Result</h2>
+          <p>
+            A single flyover of a baseline A350-941 at 10,000 ft and 200 knots gave a noise
+            footprint of roughly 40&ndash;45 dB, stretched along the flight path by the directivity
+            correction:
+          </p>
+
+          <figure>
+            <img src="../images/noise-tool-single-flyover.png" style="width:100%;max-width:480px;border-radius:4px;" alt="Single flyover noise contour for an Airbus A350-941, a lens-shaped green region around 40-45 decibels stretched along the flight path direction">
+            <figcaption>Single-flyover contour, A350-941 at Z=10,000 ft, V=200 kts. The lens shape comes from the dipole directivity correction</figcaption>
+          </figure>
+
+          <p>
+            Running the same calculation for a Boeing 777-300ER and a Boeing 747-400 at their own
+            typical approach conditions showed how much aircraft type and altitude change the
+            footprint. The 747, lower and louder, pushes the whole grid into the 55&ndash;60 dB
+            band. The 777 sits in between:
+          </p>
+
+          <figure>
+            <img src="../images/noise-tool-flyover-comparison.png" style="width:100%;border-radius:4px;" alt="Side-by-side noise contours for three aircraft: A350-941 at Z=10000ft, Boeing 777-300ER at Z=9000ft, and Boeing 747-400 at Z=8000ft, showing progressively larger and louder footprints">
+            <figcaption>A350-941 (left), Boeing 777-300ER (centre), Boeing 747-400 (right). Lower approach altitude and a noisier aircraft both push more of the grid into the red</figcaption>
+          </figure>
+
+          <p>
+            The full landing-takeoff cycle for the A350, shown at the top of this page, is the
+            tool's most demanding test: a custom-discretised descent-to-landing-to-climb trajectory
+            run through the same grid-point calculation, accumulating noise from every position
+            along the path rather than just one. The result peaks above 80 dB directly under the
+            flight path and falls off sharply to either side, roughly the shape you'd expect from a
+            real runway noise contour.
+          </p>
+
+          <h2>Limitations</h2>
+          <p>
+            The method assumes a flat, homogeneous atmosphere with no ground reflection, no weather
+            correction, and lateral directivity only. Longitudinal effects, like engine noise on the
+            takeoff roll, aren't captured at all. It's also an open-form solution, so it's
+            computationally expensive: every grid point needs its own NPD interpolation for every
+            aircraft position along the path. Two specific errors the report flags are worth naming.
+            Finite Segment Error comes from interpolating noise between grid points instead of
+            solving at infinite resolution. Segment Interaction Error comes from not accounting for
+            the noise contribution of adjacent flight path segments, which would push real exposure
+            higher than the tool predicts. The tool also models noise intensity at an instant, not
+            cumulative exposure duration, and it needs real GPS motion-tracking data to drive a
+            genuinely realistic flight path rather than an idealised one.
+          </p>
+        </article>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
